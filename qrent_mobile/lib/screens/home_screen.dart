@@ -168,103 +168,104 @@ class _HomeScreenState extends State<HomeScreen> {
         : '65070214';
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(64),
-        child: Container(
-          color: Colors.white,
-          padding: const EdgeInsets.only(top: 36, left: 16, right: 16, bottom: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // User Info
-              Row(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        titleSpacing: 16,
+        toolbarHeight: 68,
+        title: Row(
+          children: [
+            CircleAvatar(
+              radius: 19,
+              backgroundColor: AppTheme.primary,
+              child: Text(
+                studentName.isNotEmpty ? studentName.substring(0, 1) : 'U',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundColor: AppTheme.primary,
-                    child: Text(
-                      studentName.isNotEmpty ? studentName.substring(0, 1) : 'U',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            studentName,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.onSurface,
-                            ),
+                      Flexible(
+                        child: Text(
+                          studentName,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.onSurface,
                           ),
-                          const SizedBox(width: 6),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                            decoration: BoxDecoration(
-                              color: AppTheme.successBg,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Text(
-                              'นศ. ปกติ',
-                              style: TextStyle(
-                                fontSize: 9,
-                                fontWeight: FontWeight.bold,
-                                color: AppTheme.success,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      Text(
-                        'รหัส $studentId • วิศวกรรมศาสตร์',
-                        style: const TextStyle(fontSize: 10, color: AppTheme.outline),
+                      const SizedBox(width: 6),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: AppTheme.successBg,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Text(
+                          'นศ. ปกติ',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.success,
+                          ),
+                        ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'รหัส $studentId • วิศวกรรมศาสตร์',
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 11, color: AppTheme.outline),
+                  ),
                 ],
               ),
-
-              // Notification & Logout Actions
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: _showNotificationDialog,
-                    icon: Stack(
-                      children: [
-                        const Icon(Icons.notifications_none, size: 22, color: AppTheme.outline),
-                        Positioned(
-                          right: 1,
-                          top: 1,
-                          child: Container(
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(
-                              color: AppTheme.error,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                      ],
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: _showNotificationDialog,
+            tooltip: 'การแจ้งเตือน',
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(Icons.notifications_none, size: 24, color: AppTheme.outline),
+                Positioned(
+                  right: 2,
+                  top: 2,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: AppTheme.error,
+                      shape: BoxShape.circle,
                     ),
                   ),
-                  IconButton(
-                    onPressed: _handleLogout,
-                    icon: const Icon(Icons.logout, size: 20, color: AppTheme.outline),
-                  ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
-        ),
+          IconButton(
+            onPressed: _handleLogout,
+            tooltip: 'ออกจากระบบ',
+            icon: const Icon(Icons.logout, size: 22, color: AppTheme.outline),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _loadData,

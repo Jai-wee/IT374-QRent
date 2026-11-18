@@ -46,6 +46,56 @@ IT374_Project/
 
 ---
 
+## 💻 ขั้นตอนการรันครั้งแรกบนเครื่องใหม่ (Quick Setup สำหรับย้ายเครื่อง / พรีเซนต์)
+
+### โปรแกรมที่ต้องติดตั้งบนเครื่องใหม่
+1. **Node.js** (แนะนำ v18 ขึ้นไป)
+2. **PostgreSQL** (แนะนำติดตั้งพร้อม pgAdmin 4)
+3. **Flutter SDK** และเบราว์เซอร์ **Google Chrome**
+
+### ขั้นตอนการติดตั้งและรันใช้งาน (เรียงตามลำดับ)
+
+1. **ดึงโปรเจกต์ลงเครื่องใหม่:**
+   ```bash
+   git clone https://github.com/Jai-wee/IT374-QRent.git
+   cd IT374-QRent
+   ```
+
+2. **ตั้งค่ารหัสผ่าน Database ในไฟล์ `qrent-backend/.env`:**
+   * เปิดไฟล์ `qrent-backend/.env` แล้วแก้ไขค่า `DB_PASSWORD` ให้ตรงกับรหัสผ่าน PostgreSQL ที่ตั้งไว้บนเครื่องใหม่:
+     ```env
+     DB_PASSWORD=รหัสผ่าน_PostgreSQL_ของเครื่องใหม่
+     ```
+
+3. **สร้างฐานข้อมูลเปล่าชื่อ `qrent_db`:**
+   * **วิธีที่ 1 (pgAdmin 4):** เปิด pgAdmin 4 → คลิกขวาที่ **Databases** → **Create** → **Database...** → ตั้งชื่อว่า **`qrent_db`** → กด Save
+   * **วิธีที่ 2 (Command Line):**
+     ```bash
+     psql -U postgres -h localhost -p 5432 -c "CREATE DATABASE qrent_db;"
+     ```
+
+4. **รันฝั่ง Backend API (เปิด Terminal หน้าต่างที่ 1):**
+   ```bash
+   cd qrent-backend
+   npm install
+   npm run init-db
+   npm start
+   ```
+   > `npm run init-db` จะสร้างตารางฐานข้อมูลทั้งหมดและใส่ข้อมูลตัวอย่าง (Seed Data) เข้าไปใน `qrent_db` อัตโนมัติ
+
+5. **รันฝั่ง Frontend บน Chrome (เปิด Terminal หน้าต่างที่ 2):**
+   ```bash
+   cd qrent_mobile
+   flutter pub get
+   flutter run -d chrome
+   ```
+   * **วิธีปรับหน้าจอ Chrome ให้แสดงผลขนาดมือถือสำหรับพรีเซนต์:**
+     1. กด **`F12`** (หรือ `Ctrl + Shift + I`) เพื่อเปิด Developer Tools
+     2. กด **`Ctrl + Shift + M`** (Toggle Device Toolbar) แล้วเลือกรุ่นมือถือ เช่น **iPhone 14 Pro** หรือขนาด **390 × 844**
+     3. กด **`F5`** รีเฟรชหน้าเว็บ 1 ครั้ง เพื่อให้ Flutter ปรับ Layout เป็นโหมดมือถือ
+
+---
+
 ## 🚀 วิธีการติดตั้งและรันงาน (Getting Started)
 
 ### 1. รันฝั่ง Mobile App (Flutter)
